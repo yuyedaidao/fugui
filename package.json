@@ -1,0 +1,27 @@
+{
+  "name": "fugui",
+  "version": "1.0.0",
+  "description": "fugui 利用dsBridge将http请求转移到native",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run build && mocha -t 5000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuyedaidao/fugui.git"
+  },
+  "author": "yuyedaidao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yuyedaidao/fugui/issues"
+  },
+  "homepage": "https://github.com/yuyedaidao/fugui#readme",
+  "devDependencies": {
+    "babel-preset-env": "^1.7.0",
+    "chai": "^4.2.0",
+    "mocha": "^6.0.2"
+  },
+  "dependencies": {
+    "dsbridge": "^3.1.4"
+  }
+}
