@@ -5,19 +5,21 @@ function Fugui(bridge)  {
 }
 
 Fugui.prototype.request = function request(configure) {
-    console.log(configure);
+    var bridge = this.bridge;
     var promise = new Promise(function(resolve, reject) {
         var debug = configure.fg_debug
         if (debug == true) {
             setTimeout(function(){
-                resolve("成功了");
+                resolve("您的测试预期返回成功，返回成功");
             }, 1000);
         } else {
-            bridge.call("onAjaxRequest", {}, function(value, success) {
+            bridge.call("onAjaxRequest", configure, function(value) {
+                var json = JSON.parse(value);
+                var success = json.success;
                 if (success == true) {
-                    resolve(value);
+                    resolve(json.value);
                 } else {
-                    reject(value);
+                    reject(json.value);
                 }
             });
         }
