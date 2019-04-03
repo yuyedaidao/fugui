@@ -22,6 +22,7 @@
     "mocha": "^6.0.2"
   },
   "dependencies": {
-    "dsbridge": "^3.1.4"
+    "dsbridge": "^3.1.4",
+    "is-buffer": "^2.0.3"
   }
 }
