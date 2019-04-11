@@ -5,7 +5,6 @@ import mergeConfig from './merge'
 function Fugui(bridge, config)  {
     this.bridge = bridge;
     this.defaults = config
-    console.log(config);
     this.interceptors = {
         request: new InterceptorManager(),
         response: new InterceptorManager()
@@ -28,7 +27,7 @@ Fugui.prototype.request = function request(config) {
         interceptors.request.forEach(function requestInterceptors(interceptor) {
             interceptor.fulfilled(config);
         });
-        var debug = config.params.fg_debug
+        var debug = config.params.fg_debug;
         if (debug == true) {
             setTimeout(function(){
                 interceptors.response.forEach(function responseInterceptors(interceptor) {

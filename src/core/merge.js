@@ -15,7 +15,7 @@ function mergeConfig(config1, config2) {
   config2 = config2 || {};
   var config = {};
 
-  utils.forEach(['url', 'method', 'params', 'data'], function valueFromConfig2(prop) {
+  utils.forEach(['url', 'method', 'params', 'data','baseURL', 'scheme'], function valueFromConfig2(prop) {
     if (typeof config2[prop] !== 'undefined') {
       config[prop] = config2[prop];
     }
@@ -38,7 +38,7 @@ function mergeConfig(config1, config2) {
     'timeout', 'withCredentials', 'adapter', 'responseType', 'xsrfCookieName',
     'xsrfHeaderName', 'onUploadProgress', 'onDownloadProgress', 'maxContentLength',
     'validateStatus', 'maxRedirects', 'httpAgent', 'httpsAgent', 'cancelToken',
-    'socketPath'
+    'socketPath','scheme'
   ], function defaultToConfig2(prop) {
     if (typeof config2[prop] !== 'undefined') {
       config[prop] = config2[prop];
