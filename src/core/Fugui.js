@@ -37,15 +37,19 @@ Fugui.prototype.request = function request(config) {
             }, 1000);
         } else {
             bridge.call("onAjaxRequest", config, function(value) {
-                var json = JSON.parse(value);
-                interceptors.response.forEach(function responseInterceptors(interceptor) {
-                    interceptor.fulfilled(json.value);
-                });
-                var success = json.success;
-                if (success == true) {
-                    resolve(json.value);
-                } else {
-                    reject(json.value);
+                try {
+                    var json = JSON.parse(value);
+                    interceptors.response.forEach(function responseInterceptors(interceptor) {
+                        interceptor.fulfilled(json.value);
+                    });
+                    var success = json.success;
+                    if (success == true) {
+                        resolve(json.value);
+                    } else {
+                        reject(json.value);
+                    }
+                } catch(e) {
+                    reject("json解析错误:",e);
                 }
             });
         }
