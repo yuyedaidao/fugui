@@ -43,7 +43,7 @@ Fugui.prototype.request = function request(config) {
                         interceptor.fulfilled(json.value);
                     });
                     var success = json.success;
-                    if (success == true) {
+                    if (success === true || success === 'true' || success === 1 || success === '1') {
                         resolve(json.value);
                     } else {
                         reject(json.value);
