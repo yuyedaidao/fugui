@@ -27,32 +27,24 @@ Fugui.prototype.request = function request(config) {
         interceptors.request.forEach(function requestInterceptors(interceptor) {
             interceptor.fulfilled(config);
         });
-        var debug = config.params.fg_debug;
-        if (debug == true) {
-            setTimeout(function(){
+        
+        bridge.call("onAjaxRequest", config, function(value) {
+            try {
+                var json = JSON.parse(value);
                 interceptors.response.forEach(function responseInterceptors(interceptor) {
-                    interceptor.fulfilled("您的测试预期返回成功，返回成功");
+                    interceptor.fulfilled(json.value);
                 });
-                resolve("您的测试预期返回成功，返回成功");
-            }, 1000);
-        } else {
-            bridge.call("onAjaxRequest", config, function(value) {
-                try {
-                    var json = JSON.parse(value);
-                    interceptors.response.forEach(function responseInterceptors(interceptor) {
-                        interceptor.fulfilled(json.value);
-                    });
-                    var success = json.success;
-                    if (success === true || success === 'true' || success === 1 || success === '1') {
-                        resolve(json.value);
-                    } else {
-                        reject(json.value);
-                    }
-                } catch(e) {
-                    reject("json解析错误:",e);
+                var success = json.success;
+                if (success === true || success === 'true' || success === 1 || success === '1') {
+                    resolve(json.value);
+                } else {
+                    reject(json.value);
                 }
-            });
-        }
+            } catch(e) {
+                reject("json解析错误:",e);
+            }
+        });
+        
     })
     return promise;
 }

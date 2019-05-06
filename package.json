@@ -1,6 +1,6 @@
 {
   "name": "fugui",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "fugui 利用dsBridge将http请求转移到native",
   "main": "index.js",
   "scripts": {
