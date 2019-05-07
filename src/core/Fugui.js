@@ -22,30 +22,33 @@ Fugui.prototype.request = function request(config) {
     
     config = mergeConfig(this.defaults, config);
     config.method = config.method ? config.method.toLowerCase() : 'get';
+
     var interceptors = this.interceptors
-    var promise = new Promise(function(resolve, reject) {
-        interceptors.request.forEach(function requestInterceptors(interceptor) {
-            interceptor.fulfilled(config);
-        });
-        
-        bridge.call("onAjaxRequest", config, function(value) {
-            try {
-                var json = JSON.parse(value);
-                interceptors.response.forEach(function responseInterceptors(interceptor) {
-                    interceptor.fulfilled(json.value);
-                });
-                var success = json.success;
-                if (success === true || success === 'true' || success === 1 || success === '1') {
-                    resolve(json.value);
-                } else {
-                    reject(json.value);
+    var promise = Promise.resolve(config)
+    interceptors.request.forEach(function requestInterceptors(interceptor) {
+        promise = promise.then(interceptor.fulfilled)
+    });
+    promise = promise.then(config => {
+        return new Promise(function(resolve, reject) {
+            bridge.call("onAjaxRequest", config, function(value) {
+                try {
+                    var json = JSON.parse(value);
+                    var success = json.success;
+                    if (success === true || success === 'true' || success === 1 || success === '1') {
+                        resolve(json.value);
+                    } else {
+                        reject(json.value);
+                    }
+                } catch(e) {
+                    reject("json解析错误:",e);
                 }
-            } catch(e) {
-                reject("json解析错误:",e);
-            }
-        });
-        
+            });  
+        })
     })
+    interceptors.response.forEach(function responseInterceptors(interceptor) {
+        promise = promise.then(interceptor.fulfilled)
+    });
+    
     return promise;
 }
 
