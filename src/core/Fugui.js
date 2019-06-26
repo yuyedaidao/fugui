@@ -22,7 +22,7 @@ Fugui.prototype.request = function request(config) {
     
     config = mergeConfig(this.defaults, config);
     config.method = config.method ? config.method.toLowerCase() : 'get';
-
+    config.headers = config.headers ? config.headers : {}
     var interceptors = this.interceptors
     var promise = Promise.resolve(config)
     interceptors.request.forEach(function requestInterceptors(interceptor) {

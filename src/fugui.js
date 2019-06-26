@@ -11,7 +11,7 @@ function createInstance(bridge, config) {
 }
 // Create the default instance to be exported
 
-var fugui = createInstance(dsbridge, {headers: {}});
+var fugui = createInstance(dsbridge, {});
 fugui.create = function create(instanceConfig) {
     return createInstance(dsbridge, instanceConfig);
 };
